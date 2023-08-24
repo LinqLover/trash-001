@@ -1,0 +1,16 @@
+{
+	"category" : "Trace4D",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"cursor",
+		"objectIds",
+		"classNames" ],
+	"name" : "T4DTrace",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

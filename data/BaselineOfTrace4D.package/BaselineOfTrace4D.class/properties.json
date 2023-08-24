@@ -1,0 +1,14 @@
+{
+	"category" : "BaselineOfTrace4D",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		 ],
+	"name" : "BaselineOfTrace4D",
+	"pools" : [
+		 ],
+	"super" : "BaselineOf",
+	"type" : "normal" }

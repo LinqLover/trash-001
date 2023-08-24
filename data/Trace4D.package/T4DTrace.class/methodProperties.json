@@ -1,0 +1,23 @@
+{
+	"class" : {
+		"cursorClass" : "ct 5/26/2023 00:40",
+		"forBlock:" : "ct 5/21/2023 17:39",
+		"forCursor:" : "ct 5/21/2023 17:39" },
+	"instance" : {
+		"buildClasses" : "ct 5/21/2023 18:36",
+		"buildFieldHistoryFor:field:" : "ct 5/26/2023 00:45",
+		"buildJson" : "ct 5/21/2023 18:37",
+		"buildObjectFor:" : "ct 5/27/2023 01:20",
+		"buildObjects" : "ct 5/21/2023 18:48",
+		"buildTrace" : "ct 5/21/2023 18:30",
+		"buildTraceFor:" : "ct 5/21/2023 20:01",
+		"containerClass" : "ct 5/21/2023 18:36",
+		"cursor" : "ct 5/21/2023 17:39",
+		"cursor:" : "ct 5/21/2023 17:39",
+		"fieldsFor:" : "ct 5/21/2023 18:40",
+		"idOrStringFor:" : "ct 5/21/2023 18:54",
+		"makeContainer" : "ct 5/21/2023 18:36",
+		"nameForClass:" : "ct 5/21/2023 19:57",
+		"objectIdFor:" : "ct 5/21/2023 17:53",
+		"storeJsonInFileNamed:" : "ct 5/21/2023 20:05",
+		"stringFor:" : "ct 5/21/2023 18:34" } }

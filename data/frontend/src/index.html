@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Trace4D</title>
+    <link rel="shortcut icon" href="assets/t4d.ico" />
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+
+        font-family: sans-serif;
+      }
+
+      .overlay-container {
+        position: fixed;
+      }
+
+      .overlay {
+        overflow: hidden;
+        height: 100%;
+      }
+
+      .resizer[data-direction='vertical'] {
+        cursor: ns-resize;
+        height: 4px;
+        width: 100%;
+        position: absolute;
+        z-index: 2;
+      }
+
+      .has-touch-handler {
+        touch-action: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      #container {
+        width: 100%;
+        height: 100%;
+      }
+
+      #three {
+        width: 100%;
+        height: 100%;
+      }
+
+      #player-container {
+        bottom: 4vh;
+        left: 4vw;
+        right: 4vw;
+        height: 5%;
+      }
+
+      #player {
+        background-color: #000000a0;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .player-button {
+        height: 100%;
+        font-size: 2vh;
+        width: 4vh;
+        flex-shrink: 0;
+
+        color: white;
+        background: transparent;
+        border: none;
+
+        cursor: pointer;
+      }
+
+      #player-play {
+        display: block;
+      }
+
+      #player-pause {
+        display: none;
+      }
+
+      #player.playing #player-play {
+        display: none;
+      }
+
+      #player.playing #player-pause {
+        display: block;
+      }
+
+      #timeline {
+        height: 100%;
+        flex: auto;
+
+        background-color: #000000a0;
+
+        cursor: pointer;
+      }
+
+      #cursor {
+        position: relative;
+        left: 0;
+        top: 0;
+        z-index: 2;
+        width: .2em;
+        height: 100%;
+        background-color: #ffffff;
+        /* glow */
+        box-shadow: 0 0 6px #ffffff;
+
+        pointer-events: none; /* otherwise blocks clicks on flamegraph */
+      }
+
+      #flamegraph {
+        transform: translateY(-100%);
+        width: 100%;
+        height: 100%;
+      }
+
+      #flamegraph * {
+        user-select: none;
+      }
+
+      #flamegraph > svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      #flamegraph .d3-flame-graph-label {
+        font-size: small;
+        transform: scaleX(0.8);
+        transform-origin: left;
+      }
+
+      .d3-flame-graph-tip.s {
+        background: #000000d0;
+        font-family: sans-serif;
+        padding: 5px;
+        color: white;
+        font-size: small;
+      }
+    </style>
+    <script defer type="module">
+      import '@fortawesome/fontawesome-free/css/all.css'
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+      const resizable = function (resizer) {
+        const target = resizer.parentElement
+        const direction = resizer.getAttribute('data-direction') || 'horizontal'
+        const edge = resizer.getAttribute('data-edge') || (direction === 'horizontal' ? 'left' : 'top')
+
+        let x = 0
+        let y = 0
+        let prevHeight = 0
+        let prevWidth = 0
+
+        const mouseDownHandler = function (event) {
+          x = event.pageX
+          y = event.pageY
+          const rect = target.getBoundingClientRect()
+          prevHeight = rect.height
+          prevWidth = rect.width
+
+          document.addEventListener('mousemove', mouseMoveHandler)
+          document.addEventListener('mouseup', mouseUpHandler)
+        }
+
+        const mouseMoveHandler = function (event) {
+          const dx = (event.pageX - x) * (edge === 'right' ? -1 : 1)
+          const dy = (event.pageY - y) * (edge === 'bottom' ? -1 : 1)
+
+          switch (direction) {
+            case 'vertical':
+              const h = ((prevHeight + dy) * 100) / target.parentElement.getBoundingClientRect().height
+              target.style.height = h + '%'
+              break
+            case 'horizontal':
+              const w = ((prevWidth + dx) * 100) / target.parentElement.getBoundingClientRect().width
+              target.style.width = w + '%'
+              break
+          }
+
+          const cursor = direction === 'horizontal' ? 'col-resize' : 'row-resize'
+          resizer.style.cursor = cursor
+          document.body.style.cursor = cursor
+
+          target.style.userSelect = 'none'
+          target.style.pointerEvents = 'none'
+        }
+
+        const mouseUpHandler = function () {
+          resizer.style.removeProperty('cursor')
+          document.body.style.removeProperty('cursor')
+
+          target.style.removeProperty('user-select')
+          target.style.removeProperty('pointer-events')
+
+          document.removeEventListener('mousemove', mouseMoveHandler)
+          document.removeEventListener('mouseup', mouseUpHandler)
+        };
+
+        resizer.addEventListener('mousedown', mouseDownHandler)
+      }
+
+      document.querySelectorAll('.resizer').forEach(function (element) {
+        resizable(element);
+      })
+    })
+    </script>
+  </head>
+
+  <body>
+    <script type="module" src="main.js"></script>
+    <div id="container">
+      <div id="three"></div>
+      <div id="player-container" class="overlay-container">
+        <div class="resizer" data-direction="vertical" data-edge="bottom"></div>
+        <div id="player" class="overlay">
+          <button id="player-play" class="player-button has-touch-handler">
+            <i class="fas fa-play"></i>
+          </button>
+          <button id="player-pause" class="player-button has-touch-handler">
+            <i class="fas fa-pause"></i>
+          </button>
+          <div id="timeline" class="has-touch-handler">
+            <div id="cursor" class="has-touch-handler"></div>
+            <div id="flamegraph"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
