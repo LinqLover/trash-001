@@ -1,1 +1,7 @@
-TraceClass
+
+  constructor(name) {
+    this.name = name
+  }
+}
+
+export 

@@ -1,1 +1,6 @@
-TraceObject
+
+  name
+  category
+}
+
+export 
