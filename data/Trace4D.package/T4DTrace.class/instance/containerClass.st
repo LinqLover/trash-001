@@ -1,4 +1,0 @@
-private
-containerClass
-
-	^ OrderedJsonObject
